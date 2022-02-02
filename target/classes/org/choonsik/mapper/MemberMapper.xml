@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.choonsik.mapper.MemberMapper">
+
+	<!-- <resultMap type="org.choonsik.domain.MemberVO" id="memberMap">
+		<result property="mid" column="mid"/>
+		<result property="mpw" column="mpw"/>
+		<result property="mname" column="mname"/>
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+	
+	<resultMap type="org.joonzis.domain.AuthVO" id="authMap">
+		<result property="mid" column="mid"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	
+	<select id="read" resultMap="memberMap">
+		select
+   			mem.mid, mpw, mname, auth 
+		from 
+   			choon_member mem left join choon_member_auth auth
+  			on mem.mid = auth.mid
+		where 
+    		mem.mid = #{mid}
+	</select> -->
+	
+	<insert id="registerForm">
+		insert into choon_member(mno, mid, mpw, mname, mphone, memail) 
+		values(choon_member_seq.nextval, #{mid}, #{mpw}, #{mname}, #{mphone}, #{memail})
+	</insert>
+	
+	<select id="purchase" resultType="org.choonsik.domain.ProductVO" parameterType="long">
+		select pno, pcatname, pname, porgname, pml, palcohol, pprice, pdesc
+		    from product_info p, category c, origin o
+		    where p.pcategory = c.pcategory
+		    and p.porigin = o.porigin
+		    and pno = #{pno}
+	</select>
+	
+	<insert id="cartInsert">
+		insert into choon_cart(cno, mno, pno)
+		values(choon_cart_seq.nextval, 1, #{pno})
+	</insert>
+	
+	<select id="getCartList" parameterType="long" resultType="org.choonsik.domain.ProductVO">
+		select /*+index_desc(b SYS_C008119) index_desc(a product_pk)*/
+            		a.pno, a.pname, a.pml, a.palcohol, a.pprice, b.cno
+        		from product_info a, choon_cart b
+        		where a.pno = b.pno
+                and b.mno = #{mno}
+	</select>
+	
+	<select id="getTotal" parameterType="long" resultType="int">
+		select count(*) from choon_cart where mno = #{mno}
+	</select>
+	
+	<delete id="cartRemove">
+		delete from choon_cart where cno=#{cno}
+	</delete>
+</mapper>

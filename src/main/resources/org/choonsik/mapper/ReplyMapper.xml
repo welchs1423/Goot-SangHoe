@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.choonsik.mapper.ReplyMapper">
+	<select id="replyList" resultType="org.choonsik.domain.ReplyVO">
+		select * from choon_reply 
+		where bno=#{bno}
+		order by rno asc
+	</select>
+	
+	<insert id="create">
+		insert into choon_reply(rno, bno, mname, rtext) 
+		values(choon_reply_seq.nextval, #{bno}, #{mname}, #{rtext})
+	</insert>
+	
+	<delete id="deleteReply">
+		delete from choon_reply where rno=#{rno}
+	</delete>
+	
+	<select id="totalReplyCnt">
+		select count(*) from choon_reply where bno = #{bno}
+	</select>
+	
+	<update id="updateReply" parameterType="org.choonsik.domain.ReplyVO">
+		update choon_reply set rtext = #{rtext} where rno = #{rno}
+	</update>
+	
+	<select id="getReply" resultType="org.choonsik.domain.ReplyVO">
+		select * from choon_reply where rno = #{rno}
+	</select>
+	
+		<!-- <select id="selectReply" resultType="org.choonsik.domain.ReplyVO">
+		select * from choon_reply where bno = #{bno}
+	</select> -->
+	
+</mapper>

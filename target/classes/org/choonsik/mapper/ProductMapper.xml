@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.choonsik.mapper.ProductMapper">
+	<!-- list 불러오는 쿼리 시작 -->
+	<select id="getListwhiskey" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+			SELECT * FROM (select pno, pcategory, pname, porgname, palcohol, pprice, pml, pdesc 
+			from product_info, origin 
+			where origin.porigin = product_info.porigin
+			and	pcategory = 10 
+			order by pno desc ) WHERE ROWNUM <= 7
+		]]>
+	</select>
+	<select id="getListwine" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+			SELECT * FROM (select pno, pcategory, pname, porgname, palcohol, pprice, pml, pdesc 
+			from product_info, origin 
+			where origin.porigin = product_info.porigin
+			and	pcategory = 20
+			order by pno desc ) WHERE ROWNUM <= 7
+		]]>
+	</select>
+	<select id="getListbrandy" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+			SELECT * FROM (select pno, pcategory, pname, porgname, palcohol, pprice, pml, pdesc 
+			from product_info, origin 
+			where origin.porigin = product_info.porigin
+			and	pcategory = 30
+			order by pno desc ) WHERE ROWNUM <= 7
+		]]>
+	</select>
+	<select id="getListliquor" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+			SELECT * FROM (select pno, pcategory, pname, porgname, palcohol, pprice, pml, pdesc 
+			from product_info, origin 
+			where origin.porigin = product_info.porigin
+			and	pcategory = 40
+			order by pno desc ) WHERE ROWNUM <= 7
+		]]>
+	</select>
+	<select id="getListbeer" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+			SELECT * FROM (select pno, pcategory, pname, porgname, palcohol, pprice, pml, pdesc 
+			from product_info, origin 
+			where origin.porigin = product_info.porigin
+			and	pcategory = 50
+			order by pno desc ) WHERE ROWNUM <= 7
+		]]>
+	</select>
+	
+	<!-- list 불러오는 쿼리 끝 -->
+	<!-- <select id="getCategorywhiskey" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+		select pno, pcatname, pname, porgname, palcohol, pprice, pml, pdesc
+			from (
+        		select
+            		rownum rn, pno, pcatname, pname, porgname, palcohol, pprice, pml, pdesc
+        		from product_info p, category c, origin o
+        		where rownum <= #{pageNum} * #{amount}
+                and p.pcategory = c.pcategory
+                and p.porigin = o.porigin
+                and p.pcategory = #{pcategory, jdbcType=VARCHAR}
+                order by pno desc
+   				)
+			where rn > (#{pageNum} -1 ) * #{amount}
+	</select> -->
+	<select id="getCategorywine" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+		select pno, pcatname, pname, pcategory, porigin, porgname, palcohol, pprice, pml, pdesc
+			from (
+        		select /*+index_desc(a product_pk) index_desc(c category_pk) index_desc(o origin_pk)*/
+            		rownum rn, pno ,c.pcategory, pcatname, pname, o.porigin, porgname, palcohol, pprice, pml, pdesc
+        		from product_info a, category c, origin o
+        		where a.pcategory = c.pcategory
+                and a.porigin = o.porigin
+                and rownum <= #{pageNum} * #{amount}
+                and c.pcategory = #{pcategory, jdbcType=VARCHAR}
+   				)
+			where rn > (#{pageNum} -1 ) * #{amount}
+			]]>
+	</select>
+	
+	<select id="getbrandyList" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+			select pno, pcatname, pname, pcategory, porigin, porgname, palcohol, pprice, pml, pdesc
+			from (
+        		select /*+index_desc(a product_pk) index_desc(c category_pk) index_desc(o origin_pk)*/
+            		rownum rn, pno ,c.pcategory, pcatname, pname, o.porigin, porgname, palcohol, pprice, pml, pdesc
+        		from product_info a, category c, origin o
+        		where a.pcategory = c.pcategory
+                and a.porigin = o.porigin
+                and rownum <= #{pageNum} * #{amount}
+                and c.pcategory = 30
+   				)
+			where rn > (#{pageNum} -1 ) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getvodkaList" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+			select pno, pcatname, pname, pcategory, porigin, porgname, palcohol, pprice, pml, pdesc
+			from (
+        		select /*+index_desc(a product_pk) index_desc(c category_pk) index_desc(o origin_pk)*/
+            		rownum rn, pno ,c.pcategory, pcatname, pname, o.porigin, porgname, palcohol, pprice, pml, pdesc
+        		from product_info a, category c, origin o
+        		where a.pcategory = c.pcategory
+                and a.porigin = o.porigin
+                and rownum <= #{pageNum} * #{amount}
+                and c.pcategory = 50
+   				)
+			where rn > (#{pageNum} -1 ) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getliquorList" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+			select pno, pcatname, pname, pcategory, porigin, porgname, palcohol, pprice, pml, pdesc
+			from (
+        		select /*+index_desc(a product_pk) index_desc(c category_pk) index_desc(o origin_pk)*/
+            		rownum rn, pno ,c.pcategory, pcatname, pname, o.porigin, porgname, palcohol, pprice, pml, pdesc
+        		from product_info a, category c, origin o
+        		where a.pcategory = c.pcategory
+                and a.porigin = o.porigin
+                and rownum <= #{pageNum} * #{amount}
+                and c.pcategory = 40
+   				)
+			where rn > (#{pageNum} -1 ) * #{amount}
+		]]>
+	</select>
+	
+<!-- 	<select id="getTotalwhiskey" resultType="int">
+		select count(*) from product_info where pcategory = #{pcategory, jdbcType=VARCHAR}
+	</select> -->
+	<select id="getTotal" resultType="int">
+		<![CDATA[
+		select count(*) from (
+        		select /*+index_desc(a product_pk) index_desc(c category_pk) index_desc(o origin_pk)*/
+            		rownum rn, pno ,c.pcategory, pcatname, pname, o.porigin, porgname, palcohol, pprice, pml, pdesc
+        		from product_info a, category c, origin o
+        		where a.pcategory = c.pcategory
+                and a.porigin = o.porigin) where pcategory = #{pcategory, jdbcType=VARCHAR}
+                ]]>
+	</select>
+	
+	<select id="read" resultType="org.choonsik.domain.ProductVO" parameterType="long">
+		select pno, pcatname, pname, porgname, pml, palcohol, pprice, pdesc
+		    from product_info p, category c, origin o
+		    where p.pcategory = c.pcategory
+		    and p.porigin = o.porigin
+		    and pno = #{pno}
+	</select>
+	
+	<select id="getcateorglist" resultType="org.choonsik.domain.ProductVO">
+		<![CDATA[
+		select pno, pcatname, pname, pcategory, porigin, porgname, palcohol, pprice, pml, pdesc
+			from (
+        		select /*+index_desc(a product_pk) index_desc(c category_pk) index_desc(o origin_pk)*/
+            		rownum rn, pno ,c.pcategory, pcatname, pname, o.porigin, porgname, palcohol, pprice, pml, pdesc
+        		from product_info a, category c, origin o
+        		where a.pcategory = c.pcategory
+                and a.porigin = o.porigin
+                and rownum <= #{pageNum} * #{amount}
+                and c.pcategory = #{pcategory, jdbcType=VARCHAR}
+                and o.porigin = #{porigin, jdbcType=VARCHAR}
+   				)
+			where rn > (#{pageNum} -1 ) * #{amount}
+			]]>
+	</select>
+	
+	<select id="getTotalcateorg" resultType="int">
+		<![CDATA[
+		select count(*) from (
+        		select /*+index_desc(a product_pk) index_desc(c category_pk) index_desc(o origin_pk)*/
+            		rownum rn, pno ,c.pcategory, pcatname, pname, o.porigin, porgname, palcohol, pprice, pml, pdesc
+        		from product_info a, category c, origin o
+        		where a.pcategory = c.pcategory
+                and a.porigin = o.porigin) where pcategory = #{pcategory, jdbcType=VARCHAR}
+                and porigin = #{porigin, jdbcType=VARCHAR}
+                ]]>
+	</select>
+	
+	<select id="checkCategory" parameterType="long" resultType="org.choonsik.domain.CategoryVO">
+		select pcatname from category where pcategory = #{pcategory}
+	</select>
+	
+	
+	
+	
+</mapper>

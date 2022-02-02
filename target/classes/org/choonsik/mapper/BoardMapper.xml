@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.choonsik.mapper.BoardMapper">
+	<select id="getnoticelist" resultType="org.choonsik.domain.NoticeVO">
+		<![CDATA[
+			select nno, title, content, regdate, updatedate, viewcnt
+			from (
+        		select /*+index_desc(choon_notice pk_choon_notice) */
+            		rownum rn, nno, title, content, regdate, updatedate, viewcnt
+        		from choon_notice
+        		where rownum <= #{pageNum} * #{amount}
+   				)
+			where rn > (#{pageNum} -1 ) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getinquirylist" resultType="org.choonsik.domain.BoardVO">
+		<![CDATA[
+			select bno, title, content, writer, regdate, updatedate, replycnt
+			from (
+        		select /*+index_desc(choon_board pk_choon_board) */
+            		rownum rn, bno, title, content, writer, regdate, updatedate, replycnt
+        		from choon_board
+        		where rownum <= #{pageNum} * #{amount}
+   				)
+			where rn > (#{pageNum} -1 ) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getTotalnotice" resultType="int">
+		select count(*) from choon_notice
+	</select>
+	
+	<select id="getTotalinquiry" resultType="int">
+		select count(*) from choon_board
+	</select>
+	
+	<select id="readnotice" resultType="org.choonsik.domain.NoticeVO" parameterType="long">
+		select * from choon_notice where nno=#{nno}
+	</select>
+	
+	<select id="readinquiry" resultType="org.choonsik.domain.BoardVO" parameterType="long">
+		select * from choon_board where bno=#{bno}
+	</select>
+	
+	<update id="noticeviewcnt">
+		update choon_notice set viewcnt = viewcnt + 1 where nno = #{nno}
+	</update>
+	
+	<update id="boardviewcnt">
+		update choon_board set viewcnt = viewcnt + 1 where bno = #{bno}
+	</update>
+	
+	<insert id="insertnotice">
+		insert into choon_notice(nno, title, content, regdate, updatedate, viewcnt)
+		values(notice_seq.nextval, #{title}, #{content}, sysdate, sysdate, 0)
+	</insert>
+	
+	<insert id="insertinquiry">
+		insert into choon_board(bno, title, content, writer, regdate, updatedate, viewcnt)
+		values(choon_board_seq.nextval, #{title, jdbcType=VARCHAR}, #{content, jdbcType=VARCHAR}, #{writer, jdbcType=VARCHAR}, sysdate, sysdate, 0)
+	</insert>
+	
+	<update id="modifynotice">
+		update choon_notice set
+			content = #{content},
+			title = #{title},
+			regdate = sysdate
+		where 
+			nno = #{nno}
+	</update>
+	
+	<update id="modifyinquiry">
+		update choon_board set
+			content = #{content, jdbcType=VARCHAR},
+			title = #{title, jdbcType=VARCHAR},
+			writer = #{writer, jdbcType=VARCHAR},
+			regdate = sysdate
+		where 
+			bno = #{bno}
+	</update>
+	
+	<delete id="removenotice">
+		delete from choon_notice where nno=#{nno}
+	</delete>
+	
+	<delete id="removeinquiry">
+		delete from choon_board where bno=#{bno}
+	</delete>
+	
+	<update id="updateReplyCnt" parameterType="long">
+		update choon_board
+		set replycnt = (select count(*) from choon_reply where bno = #{bno})
+		where bno = #{bno}
+	</update>
+</mapper>
