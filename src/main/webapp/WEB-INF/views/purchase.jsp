@@ -293,10 +293,19 @@
 		
 	<div style="float:left;">
 		<h3>주문상품 정보</h3>
-			<div style="border: 1px solid black; padding: 10px; word-break:break-all;word-wrap:break-word; width:300px;">
+			<div style="border: 1px solid black; padding: 10px; word-break:break-all;word-wrap:break-word; width:600px;">
 				<img src="resources/images/${purchaseProduct.pname }.jpg" width="60" height="60"> ${purchaseProduct.pname }
 				<fmt:formatNumber value="${pinfo.sum }" pattern="#,###" />원 / ${pinfo.amount }개
 			</div>
+			<br>
+				<c:forEach var="cart" items="${cartList }">
+			<div style="border: 1px solid black; padding: 10px; word-break:break-all;word-wrap:break-word; width:600px;">
+				<img src="resources/images/${cart.pname }.jpg" width="60" height="60"> ${cart.pname }
+				<fmt:formatNumber value="${pinfo.sum }" pattern="#,###" />원 / ${pinfo.amount }개
+			</div> 
+				<br>
+				</c:forEach>
+			
 	</div>
 	
 		

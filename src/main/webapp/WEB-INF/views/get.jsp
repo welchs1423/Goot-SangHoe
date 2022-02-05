@@ -351,11 +351,29 @@ a.purchase {
 $(function(){
 	
 	$(".purchase").click(function(e){
-		e.preventDefault();
+		/* e.preventDefault();
 		var amount = document.form.amount.value;
 		var pno = "${productget.pno}";
 		var sum = document.form.sum.value;
-		location.href="/purchase?pno=" + pno + "&amount=" + amount + "&sum=" + sum;
+		location.href="/purchase?pno=" + pno + "&amount=" + amount + "&sum=" + sum; */
+		e.preventDefault();
+		var form = document.createElement("form");
+		var hiddenField = document.createElement("input");
+		var pno = "${productget.pno}";
+		var pname = "${productget.pname}";
+		
+		form.setAttribute("charset","UTF-8");
+		form.setAttribute("method","Post");
+		form.setAttribute("action","/cartInsert2?pno=" + pno);
+		hiddenField.setAttribute("type","hidden");
+		hiddenField.setAttribute("name","pno");
+		hiddenField.setAttribute("value",pno);
+		
+		form.appendChild(hiddenField);
+		document.body.appendChild(form);
+		form.submit();
+		
+		alert("구매전 장바구니 페이지로 이동합니다.");
 	});
 });
 

@@ -56,10 +56,12 @@ public class MemberController {
 	}
 	
 	@GetMapping("/purchase")
-	public void purchase(Model model, @RequestParam("pno") long pno, purchaseInfo pinfo) {
-		log.info("purchase.." + pno + "purchaseInfo" + pinfo);
+	public void purchase(Model model, @RequestParam("pno") long pno, purchaseInfo pinfo
+			, @RequestParam("mno") long mno) {
+		log.info("purchase.." + pno + "..purchaseInfo" + pinfo);
 		model.addAttribute("purchaseProduct", service.purchase(pno));
 		model.addAttribute("pinfo",pinfo);
+		model.addAttribute("cartList",service.getCartList(mno));
 	}
 	
 	@PostMapping("/purchase")
@@ -85,8 +87,22 @@ public class MemberController {
 		
 		if(result > 0) {
 			rttr.addFlashAttribute("result", result);
-		}		
-		return "redirect:/get?pno=" + pno;
+		}
+		return "redirect:/get?pno="+pno;		
+	}
+	
+	@PostMapping("/cartInsert2")
+	public String cartInsert2(Model model, RedirectAttributes rttr,
+			CartVO cart) {
+		
+		log.info("cartInsert..." + cart);
+		
+		int result = service.cartInsert(cart);
+		
+		if(result > 0) {
+			rttr.addFlashAttribute("result", result);
+		}
+		return "redirect:/cart?mno=1";		
 	}
 	
 	@GetMapping("/cart")
