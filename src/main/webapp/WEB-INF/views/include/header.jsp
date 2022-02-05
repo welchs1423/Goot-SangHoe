@@ -150,7 +150,7 @@
 			<c:when test="${empty sessionScope.roleName}"><a href="/customLogin">로그인</a></c:when>
 			<c:otherwise></c:otherwise>
 		</c:choose>
-			<a href="/registerCheck">회원가입</a>
+			<a href="/registerCheck">회원가입.</a>
 			<a href="/cart?mno=1">장바구니</a>
 			<a href="/board/notice?amount=20&pageNum=1">공지사항</a>
 			<a style="margin:0px 200px 0px 0px"href="/board/inquiry?amount=20&pageNum=1">상품문의</a>
