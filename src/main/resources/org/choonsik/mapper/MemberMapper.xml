@@ -3,33 +3,17 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.choonsik.mapper.MemberMapper">
-
-	<!-- <resultMap type="org.choonsik.domain.MemberVO" id="memberMap">
-		<result property="mid" column="mid"/>
-		<result property="mpw" column="mpw"/>
-		<result property="mname" column="mname"/>
-		<collection property="authList" resultMap="authMap"></collection>
-	</resultMap>
-	
-	<resultMap type="org.joonzis.domain.AuthVO" id="authMap">
-		<result property="mid" column="mid"/>
-		<result property="auth" column="auth"/>
-	</resultMap>
-	
-	<select id="read" resultMap="memberMap">
-		select
-   			mem.mid, mpw, mname, auth 
-		from 
-   			choon_member mem left join choon_member_auth auth
-  			on mem.mid = auth.mid
-		where 
-    		mem.mid = #{mid}
-	</select> -->
 	
 	<insert id="registerForm">
 		insert into choon_member(mno, mid, mpw, mname, mphone, memail) 
 		values(choon_member_seq.nextval, #{mid}, #{mpw}, #{mname}, #{mphone}, #{memail})
 	</insert>
+	
+	<select id="login" resultType="org.choonsik.domain.MemberVO">
+		select username, password from choon_member
+		where username = #{username}
+		and password = #{password}
+	</select>
 	
 	<select id="purchase" resultType="org.choonsik.domain.ProductVO" parameterType="long">
 		select pno, pcatname, pname, porgname, pml, palcohol, pprice, pdesc
@@ -59,4 +43,5 @@
 	<delete id="cartRemove">
 		delete from choon_cart where cno=#{cno}
 	</delete>
+	
 </mapper>

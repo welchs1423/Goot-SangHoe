@@ -20,41 +20,52 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException, ServletException {
+			Authentication auth) throws IOException, ServletException {
 		
 		log.warn("Login Success!!");
 		
-		List<String> roleName = new ArrayList<String>();
+		List<String> roleNames = new ArrayList<String>();
+		
+		auth.getAuthorities().forEach(authority -> {
+			roleNames.add(authority.getAuthority());
+		});
 		
 		
-		for(GrantedAuthority auth : authentication.getAuthorities()) {
-			roleName.add(auth.getAuthority());
-		}
+		/*
+		 * for(GrantedAuthority auth : authentication.getAuthorities()) {
+		 * roleName.add(auth.getAuthority()); }
+		 */
 		
-		log.warn( "ROLE NAME : " + roleName);
+		log.warn( "ROLE NAME : " + roleNames);
 		
-		if(roleName.contains("ROLE_ADMIN")) {
+		if(roleNames.contains("ROLE_ADMIN")) {
 			
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-
-			out.println("<script language='javascript'>");
-			out.println("alert('관리자님 환영합니다.'); location.href='/list';");
-			out.println("</script>");
-
-			out.flush();
+			/*
+			 * response.setContentType("text/html; charset=UTF-8"); PrintWriter out =
+			 * response.getWriter();
+			 * 
+			 * out.println("<script language='javascript'>");
+			 * out.println("alert('관리자님 환영합니다.'); location.href='/list';");
+			 * out.println("</script>");
+			 * 
+			 * out.flush();
+			 */
+			response.sendRedirect("/sample/admin");
 			return;
 		}
 		
-		if(roleName.contains("ROLE_MEMBER")) {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-
-			out.println("<script language='javascript'>");
-			out.println("alert('님 환영합니다.'); location.href='/list';");
-			out.println("</script>");
-
-			out.flush();
+		if(roleNames.contains("ROLE_MEMBER")) {
+			/*
+			 * response.setContentType("text/html; charset=UTF-8"); PrintWriter out =
+			 * response.getWriter();
+			 * 
+			 * out.println("<script language='javascript'>");
+			 * out.println("alert('님 환영합니다.'); location.href='/list';");
+			 * out.println("</script>");
+			 * 
+			 * out.flush();
+			 */
+			response.sendRedirect("/sample/member");
 			return;
 		}
 		

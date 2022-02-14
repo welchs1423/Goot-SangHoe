@@ -78,7 +78,7 @@
             <a href="" target="_blank" id="login_password_lost" class="btn02">아이디 비밀번호 찾기</a>
         </div>
     </aside>
-
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
 
         

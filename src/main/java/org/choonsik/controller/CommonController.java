@@ -23,7 +23,7 @@ public class CommonController {
 		log.info("logout : " + logout);
 		
 		if(error != null) {
-			model.addAttribute("error", "Login Error");
+			model.addAttribute("error", "Login Error Check Your Account");
 		}
 		
 		if(logout != null) {
@@ -32,7 +32,7 @@ public class CommonController {
 	}
 	
 	@GetMapping("/customLogout")
-	public void logout() {
+	public void logoutGET() {
 		log.info("custom logout");
 	}
 	
