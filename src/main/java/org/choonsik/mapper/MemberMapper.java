@@ -12,7 +12,7 @@ public interface MemberMapper {
 
 	public ProductVO purchase(long pno);
 	
-	public MemberVO read(String mid);
+	public MemberVO read(String username);
 
 	public int cartInsert(CartVO cart);
 

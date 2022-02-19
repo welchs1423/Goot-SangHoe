@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
@@ -88,6 +89,10 @@
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
+ 	  function logoutfunction(formName){
+ 		  formName.submit();
+ 	  };
+ 	  
  	  $(function(){
 		
 		$(".whiskey").click(function(e){
@@ -145,11 +150,8 @@
 	</div>
 		<a href="/list"><img src="/resources/images/로고.jpg" style="width:400x;height:200px;margin:0px 0px 0px 510px"></a>
 		<div id="tnb">
-		<c:choose>
-			<c:when test="${not empty sessionScope.roleName}"><a href="/customLogout"></a>로그아웃</c:when>
-			<c:when test="${empty sessionScope.roleName}"><a href="/customLogin">로그인</a></c:when>
-			<c:otherwise></c:otherwise>
-		</c:choose>
+			<sec:authorize access="isAuthenticated()"><a href="#" onclick="javascript:logoutfunction(logoutform);">로그아웃</a></sec:authorize>
+			<sec:authorize access="isAnonymous()"><a href="/customLogin">로그인</a></sec:authorize>
 			<a href="/registerCheck">회원가입</a>
 			<a href="/cart?mno=1">장바구니</a>
 			<a href="/board/notice?amount=20&pageNum=1">공지사항</a>
@@ -164,6 +166,9 @@
 		<li class="headerli"><a href="40" id="headera" class="liquor">리큐어</a></li>
 		<li class="headerli"><a href="50" id="headera" class="beer">보드카</a></li>
 	</ul>
+	<form name="logoutform" action="/customLogout" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }"/>
+	</form>
 	</div>
 </body>
 

@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MemberVO {
 	private long mno;
-	private String mid, mpw, mname, mphone, memail, mauth;
+	private String username, password, mname, mphone, memail;
+	private boolean enabled;
+	
 	private List<AuthVO> authList;
 }

@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.User;
 
 import lombok.Getter;
 
+@Getter
 public class CustomUser extends User{
 
-@Getter
 private static final long serialVersionUID = 1L;
 	
 	private MemberVO member;
@@ -22,20 +22,10 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public CustomUser(MemberVO vo) {
-		super(vo.getMid(), vo.getMpw(), vo.getAuthList().stream().
-				map(auth -> new SimpleGrantedAuthority(auth.getAuth())).
+		super(vo.getUsername(), vo.getPassword(), vo.getAuthList().stream().
+				map(auth -> new SimpleGrantedAuthority(auth.getAuthority())).
 				collect(Collectors.toList()));
 		
 		this.member = vo;
 	}
-
-	public MemberVO getMember() {
-		return member;
-	}
-
-	
-	
-
-	
-
 }
