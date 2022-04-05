@@ -152,6 +152,7 @@
 		<div id="tnb">
 			<sec:authorize access="isAuthenticated()"><a href="#" onclick="javascript:logoutfunction(logoutform);">로그아웃</a></sec:authorize>
 			<sec:authorize access="isAnonymous()"><a href="/customLogin">로그인</a></sec:authorize>
+			<a href="#"><%-- <sec:authentication property="principal.member.mname"/> --%>내 정보</a>
 			<a href="/registerCheck">회원가입</a>
 			<a href="/cart?mno=1">장바구니</a>
 			<a href="/board/notice?amount=20&pageNum=1">공지사항</a>
