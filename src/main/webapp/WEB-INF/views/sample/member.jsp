@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>/sample/member page</h1>
+	<script>
+	alert("환영합니다.");
+	document.location.href="/list";
+</script>
 </body>
 </html>

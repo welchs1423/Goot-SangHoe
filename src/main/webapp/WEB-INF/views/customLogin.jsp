@@ -57,7 +57,7 @@
 <div id="mb_login" class="mbskin">
     <h1>LOGIN</h1>
 
-    <form name="flogin" action="/login" method="post">
+    <form name="login" action="/login" method="post">
     <input type="hidden" name="url" value="">
 
     <fieldset id="login_fs">

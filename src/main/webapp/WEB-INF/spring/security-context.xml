@@ -21,31 +21,18 @@
 		<security:intercept-url pattern="/sample/admin"
 			access="hasRole('ROLE_ADMIN')"/>
 		
-		<!-- <security:form-login /> -->
 		<security:access-denied-handler ref="customAccessDenied"/>
 		
 		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
 		<security:logout logout-url="/customLogout" invalidate-session="true"/>
 		
-		<!-- <security:access-denied-handler error-page="/accessError"/> -->
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
 		
 		
 	</security:http>
-	
-	<!-- <security:authentication-manager>
-	
-		<security:authentication-provider>
-			<security:jdbc-user-service data-source-ref="dataSource"/>
-			<security:password-encoder ref="customPasswordEncoder"/>
-		</security:authentication-provider>
-		
-
-	</security:authentication-manager> -->
 	<security:authentication-manager>
 	
 		<security:authentication-provider user-service-ref="customUserDetailsService">
-		
-			<!-- <security:jdbc-user-service data-source-ref="dataSource"/> -->
 			
 			<security:password-encoder ref="bcryptPasswordEncoder"/>
 			
